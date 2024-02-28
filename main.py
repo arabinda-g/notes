@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QAction, qApp, QPushButt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QSettings, QPoint
 from PyQt5.QtGui import QCursor
+from PyQt5 import QtCore
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -23,13 +24,16 @@ class MainWindow(QMainWindow):
         # Status bar
         self.statusBar = self.statusBar()
         self.statusBar.showMessage("Ready")
-        
+
         # Main container
         self.mainContainer = QWidget()
         self.setCentralWidget(self.mainContainer)
+
+        # Add a layout to the main container and set the alignment to top
         self.mainLayout = QVBoxLayout()
+        self.mainLayout.setAlignment(QtCore.Qt.AlignTop)
         self.mainContainer.setLayout(self.mainLayout)
-        
+
         # Theme handling
         self.applyTheme()
         
@@ -114,7 +118,11 @@ class MainWindow(QMainWindow):
                                     buttonInfo['left'], buttonInfo['top'],
                                     buttonInfo['style'], self)
         self.buttons.append(newButton)  # Keep track of the button
-        newButton.show()
+        # newButton.show()
+
+        # Add the button to the main layout
+        self.mainLayout.addWidget(newButton)
+
 
 
     def toggleMovable(self):
