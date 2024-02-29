@@ -1,10 +1,9 @@
 import sys
-# from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QMessageBox, QVBoxLayout, QPushButton, QWidget, QLabel, QLineEdit, QComboBox
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QAction, qApp, QPushButton, QWidget, QDialog, QVBoxLayout,
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QAction, qApp, QMessageBox, QPushButton, QWidget, QDialog, QVBoxLayout,
                              QLineEdit, QDialogButtonBox, QLabel, QComboBox, QHBoxLayout, QFormLayout)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt, QSettings, QPoint
-from PyQt5.QtGui import QCursor
+from PyQt5.QtCore import Qt, QSettings, QPoint, QMimeData
+from PyQt5.QtGui import QCursor, QDrag, QPainter, QPixmap
 from PyQt5 import QtCore
 
 class MainWindow(QMainWindow):
@@ -123,8 +122,6 @@ class MainWindow(QMainWindow):
         # Add the button to the main layout
         self.mainLayout.addWidget(newButton)
 
-
-
     def toggleMovable(self):
         # Toggle movable state for buttons
         pass
@@ -135,19 +132,25 @@ class DraggableButton(QWidget):
         super().__init__(parent)
         self.title = title
         self.content = content
-        self.style = style
+        self.left = left
+        self.top = top
+        # self.style = style
         self.initUI()
         self.setFixedSize(100, 50)
         self.move(left, top)
-        # Store the initial click position relative to the widget
-        self.dragStartPos = None
+        self.dragStartPos = QPoint()
+        self.wasMoved = False  # Track if the button was moved
 
     def initUI(self):
         self.button = QPushButton(self.title, self)
         self.button.setGeometry(0, 0, 100, 50)
-        self.applyStyle(self.style)
-        # Ensure the button doesn't intercept the mouse events.
-        self.button.setAttribute(Qt.WA_TransparentForMouseEvents)
+        # self.applyStyle(self.style)
+        self.button.clicked.connect(self.copyContentToClipboard)
+
+        # Set the mouse event handlers
+        self.button.mousePressEvent = self.btnMousePressEvent
+        self.button.mouseMoveEvent = self.btnMouseMoveEvent
+        self.button.mouseReleaseEvent = self.btnMouseReleaseEvent
 
     def applyStyle(self, style):
         if style == "Style 1":
@@ -155,20 +158,28 @@ class DraggableButton(QWidget):
         elif style == "Style 2":
             self.button.setStyleSheet("background-color: darkgray; color: white;")
 
-    def mousePressEvent(self, event):
+    def copyContentToClipboard(self):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.content)
+
+    def btnMousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            # Store the position where the mouse was clicked relative to the widget
             self.dragStartPos = event.pos()
+            self.wasMoved = False  # Reset the moved flag on new press
 
-    def mouseMoveEvent(self, event):
-        if event.buttons() & Qt.LeftButton and self.dragStartPos is not None:
-            # Calculate the new position based on the original click position
-            movePos = event.globalPos() - self.dragStartPos
-            self.move(self.mapToParent(event.pos() - self.dragStartPos))
-            self.oldPos = event.globalPos()
+    def btnMouseMoveEvent(self, event):
+        if not (event.buttons() & Qt.LeftButton):
+            return
+        if (event.pos() - self.dragStartPos).manhattanLength() < QApplication.startDragDistance():
+            return
+        self.move(self.mapToParent(event.pos() - self.dragStartPos))
+        self.wasMoved = True  # Set the flag to true as the button is being moved
 
-    def mouseReleaseEvent(self, event):
-        self.dragStartPos = None
+    def btnMouseReleaseEvent(self, event):
+        if not self.wasMoved:
+            # The button was clicked without being dragged
+            self.onClickAction()
+        self.wasMoved = False  # Reset the moved flag after the release
 
 
 
