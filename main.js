@@ -57,6 +57,23 @@ app.whenReady().then(() => {
         { type: 'separator' },
         { label: 'Movable', accelerator: 'CmdOrCtrl+D' }
       ]
+    },
+
+    // Devtools menu
+    {
+      label: 'Devtools',
+      submenu: [
+        {
+          label: 'Toggle DevTools',
+          accelerator: 'F12',
+          click: (item, focusedWindow) => {
+            focusedWindow.toggleDevTools();
+          }
+        },
+        {
+          role: 'reload'
+        }
+      ]
     }
   ]);
 

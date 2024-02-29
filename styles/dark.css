@@ -1,0 +1,25 @@
+/* dark.css - Dark Theme Styles */
+body {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.container {
+    background-color: #495057;
+    border: 1px solid #ced4da;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Adjust the colors as needed to fit the dark theme */
+/* Additional styling for other elements as needed */

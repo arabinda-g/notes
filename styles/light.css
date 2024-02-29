@@ -1,0 +1,24 @@
+/* light.css - Light Theme Styles */
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Additional styling for other elements as needed */

@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron App</title>
-    <link rel="stylesheet" id="theme-style">
+
+    <!-- Include Bootstrap and Font Awesome -->
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./lib/fontawesome/css/all.min.css">
+    
+    <!-- <link rel="stylesheet" id="theme-style"> -->
+    <link rel="stylesheet" id="theme-style" href="./styles/dark.css">
 </head>
+
 <body>
     <div id="app-container">
         <!-- Container for dynamically generated buttons -->
@@ -28,6 +36,10 @@
             link.href = theme === 'dark' ? './styles/dark.css' : './styles/light.css';
         });
     </script>
+
+    <!-- Include Bootstrap Bundle JS (includes Popper) -->
+    <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="renderer.js"></script>
 </body>
+
 </html>
