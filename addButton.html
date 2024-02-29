@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add New Button</title>
 
     <!-- Include Bootstrap and Font Awesome -->
@@ -20,35 +21,39 @@
     </style>
 </head>
 <body>
-    <form id="add-button-form">
-        <label>
-            Title:
-            <input type="text" id="title" required>
-        </label>
-        <label>
-            Left Position:
-            <input type="number" id="left" required>
-        </label>
-        <label>
-            Top Position:
-            <input type="number" id="top" required>
-        </label>
-        <label>
-            Style:
-            <select id="style">
-                <option value="style1">Style 1</option>
-                <option value="style2">Style 2</option>
-                <option value="style3">Style 3</option>
-                <!-- Add more styles as needed -->
-            </select>
-        </label>
-        <label>
-            Content:
-            <textarea id="content" required></textarea>
-        </label>
-        <button type="button" id="save-button">Save</button>
-        <button type="button" id="cancel-button">Cancel</button>
-    </form>
+    <div class="container">
+        <h2>Add New Button</h2>
+        <form id="add-button-form">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control form-control-sm" id="title" placeholder="Enter title" required>
+            </div>
+            <div class="row g-3">
+                <div class="col-6">
+                    <label for="left" class="form-label">Left Position:</label>
+                    <input type="number" class="form-control form-control-sm" id="left" placeholder="Enter left position" required>
+                </div>
+                <div class="col-6">
+                    <label for="top" class="form-label">Top Position:</label>
+                    <input type="number" class="form-control form-control-sm" id="top" placeholder="Enter top position" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="style" class="form-label">Style:</label>
+                <select class="form-control form-control-sm" id="style">
+                    <option value="style1">Style 1</option>
+                    <option value="style2">Style 2</option>
+                    <option value="style3">Style 3</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content:</label>
+                <textarea class="form-control form-control-sm" id="content" rows="3" placeholder="Enter content" required></textarea>
+            </div>
+            <button type="button" class="btn btn-primary mr-2" id="save-button">Save <i class="fas fa-save"></i></button>
+            <button type="button" class="btn btn-secondary" id="cancel-button">Cancel <i class="fas fa-times"></i></button>
+        </form>
+    </div>
 
     <script>
         const { ipcRenderer } = require('electron');

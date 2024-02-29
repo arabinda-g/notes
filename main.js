@@ -18,7 +18,7 @@ function createAddButtonWindow() {
   // Create the add button window
   let addButtonWindow = new BrowserWindow({
     width: 400,
-    height: 300,
+    height: 600,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // For simplicity, adjust according to your security needs
