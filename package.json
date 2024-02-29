@@ -2,9 +2,9 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "A simple desktop application for storing general information for everyday use. It simplifies the creation and management of interactive buttons on your desktop. Design custom buttons with various styles and content, easily copy information with a click, and organize them for a streamlined workflow. Enjoy a user-friendly interface and seamless cross-platform functionality, making it perfect for any desktop environment.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "keywords": [],
   "author": "",

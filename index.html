@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron App</title>
+    <link rel="stylesheet" id="theme-style">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Container for dynamically generated buttons -->
+        <div id="buttons-container">
+            <!-- Buttons will be added here by the renderer script -->
+        </div>
+
+        <!-- Status bar -->
+        <div id="status-bar">
+            <div id="status-left-label">Application Status: Ready</div>
+            <div id="status-divider">|</div>
+            <div id="status-right-label">Total Buttons: 0</div>
+        </div>
+    </div>
+
+    <script>
+        // Theme switcher logic
+        window.electron.receive('theme-updated', (theme) => {
+            const link = document.getElementById('theme-style');
+            link.href = theme === 'dark' ? './styles/dark.css' : './styles/light.css';
+        });
+    </script>
+    <script src="renderer.js"></script>
+</body>
+</html>
