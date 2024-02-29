@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Button</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <form id="add-button-form">
+        <label>
+            Title:
+            <input type="text" id="title" required>
+        </label>
+        <label>
+            Left Position:
+            <input type="number" id="left" required>
+        </label>
+        <label>
+            Top Position:
+            <input type="number" id="top" required>
+        </label>
+        <label>
+            Style:
+            <select id="style">
+                <option value="style1">Style 1</option>
+                <option value="style2">Style 2</option>
+                <option value="style3">Style 3</option>
+                <!-- Add more styles as needed -->
+            </select>
+        </label>
+        <label>
+            Content:
+            <textarea id="content" required></textarea>
+        </label>
+        <button type="button" id="save-button">Save</button>
+        <button type="button" id="cancel-button">Cancel</button>
+    </form>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        document.getElementById('save-button').addEventListener('click', () => {
+            const title = document.getElementById('title').value;
+            const left = document.getElementById('left').value;
+            const top = document.getElementById('top').value;
+            const style = document.getElementById('style').value;
+            const content = document.getElementById('content').value;
+
+            // Send the button data back to the main process or to the renderer process
+            ipcRenderer.send('add-button', { title, left, top, style, content });
+
+            // Close the window
+            window.close();
+        });
+
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            // Close the window without saving
+            window.close();
+        });
+    </script>
+</body>
+</html>

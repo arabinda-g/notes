@@ -1,8 +1,9 @@
-const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 
 function createWindow() {
-  const win = new BrowserWindow({
+  // Create the main window
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -10,27 +11,41 @@ function createWindow() {
     }
   });
 
-  win.loadFile('index.html');
+  mainWindow.loadFile('index.html');
+}
 
-  // Automatically switch theme
-  nativeTheme.on('updated', () => {
-    win.webContents.send('theme-updated', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
+function createAddButtonWindow() {
+  // Create the add button window
+  let addButtonWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false, // For simplicity, adjust according to your security needs
+      enableRemoteModule: true // Depending on Electron version, might not be needed
+    }
   });
+
+  addButtonWindow.loadFile('addButton.html');
 }
 
 app.whenReady().then(() => {
   createWindow();
 
-  const isMac = process.platform === 'darwin';
-  const template = [
-    // File menu
+  const menu = Menu.buildFromTemplate([
     {
       label: 'File',
       submenu: [
-        { label: 'New...', accelerator: 'CmdOrCtrl+N' },
-        { label: 'Save', accelerator: 'CmdOrCtrl+S' },
+        {
+          label: 'New...',
+          accelerator: 'Ctrl+N',
+          click: () => {
+            createAddButtonWindow();
+          }
+        },
+        { label: 'Save', accelerator: 'Ctrl+S' },
         { type: 'separator' },
-        { label: 'Exit', accelerator: 'CmdOrCtrl+Q', role: isMac ? 'close' : 'quit' }
+        { label: 'Exit', accelerator: 'Ctrl+Q', role: 'quit' }
       ]
     },
     // Edit menu
@@ -43,9 +58,8 @@ app.whenReady().then(() => {
         { label: 'Movable', accelerator: 'CmdOrCtrl+D' }
       ]
     }
-  ];
+  ]);
 
-  const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
   app.on('activate', () => {
